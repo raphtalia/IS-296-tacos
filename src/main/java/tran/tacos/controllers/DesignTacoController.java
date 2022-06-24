@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import tran.tacos.models.Ingredient;
 import tran.tacos.models.Taco;
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
-@RequestMapping(value = "/design")
+@RequestMapping("/design")
 public class DesignTacoController {
     @GetMapping
     public String showDesignForm(Model model) {
@@ -37,6 +38,13 @@ public class DesignTacoController {
         model.addAttribute("design", new Taco());
         return "design";
     }
+
+    @PostMapping
+    public String processDesign(Taco design) {
+        log.info("Processing the taco design: " + design);
+        return "redirect:/orders/current";
+    }
+
     private List<Ingredient> filterByType(List<Ingredient> ingredients, Ingredient.Type type) {
         return ingredients
                 .stream()
